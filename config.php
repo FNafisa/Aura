@@ -19,9 +19,14 @@ define('DB_HOST', getenv('DB_SERVER') ?: 'localhost');
 define('DB_USER', getenv('DB_USERNAME') ?: 'root');
 define('DB_PASS', getenv('DB_PASSWORD') ?: '');
 define('DB_NAME', getenv('DB_NAME') ?: 'auradb');
+define('DB_SOCKET', getenv('DB_SOCKET') ?: '');
 
 // Create connection
-$conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+if (DB_SOCKET) {
+    $conn = new mysqli(null, DB_USER, DB_PASS, DB_NAME, null, DB_SOCKET);
+} else {
+    $conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+}
 
 // Check connection
 if ($conn->connect_error) {
